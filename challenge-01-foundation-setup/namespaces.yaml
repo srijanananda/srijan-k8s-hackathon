@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: srijan-dev
+  labels:
+    project: srijan
+    environment: dev
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: srijan-staging
+  labels:
+    project: srijan
+    environment: staging
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: srijan-prod
+  labels:
+    project: srijan
+    environment: prod
