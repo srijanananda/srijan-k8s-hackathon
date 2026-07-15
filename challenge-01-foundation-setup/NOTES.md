@@ -7,5 +7,3 @@
 - Verified pod status, described pod, checked logs
 - Practiced kubectl namespace-context switching
 
-## Naming convention
-CloudVault (original PDF) → renamed to Srijan throughout.

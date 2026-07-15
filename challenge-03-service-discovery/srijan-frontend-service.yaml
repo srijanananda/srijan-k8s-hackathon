@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: srijan-frontend-svc
+  namespace: srijan-dev
+  labels:
+    app: frontend
+    tier: web
+spec:
+  type: ClusterIP
+  selector:
+    app: frontend
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP

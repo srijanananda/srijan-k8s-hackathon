@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: srijan-frontend
+  namespace: srijan-dev
+  labels:
+    app: frontend
+    tier: web
+    environment: dev
+    version: v1.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+        tier: web
+        environment: dev
+        version: v1.0
+    spec:
+      containers:
+        - name: srijan-frontend
+          image: nginx:1.21
+          ports:
+            - containerPort: 80
