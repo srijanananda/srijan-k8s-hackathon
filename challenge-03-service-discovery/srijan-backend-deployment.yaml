@@ -27,3 +27,21 @@ spec:
             - "-listen=:8080"
           ports:
             - containerPort: 8080
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-root-password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-user
+          volumeMounts:
+            - name: srijan-app-config-vol
+              mountPath: /etc/srijan-config
+      volumes:
+        - name: srijan-app-config-vol
+          configMap:
+            name: srijan-app-config

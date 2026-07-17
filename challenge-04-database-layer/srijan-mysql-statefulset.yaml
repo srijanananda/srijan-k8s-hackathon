@@ -23,7 +23,20 @@ spec:
           image: mysql:8.0
           env:
             - name: MYSQL_ROOT_PASSWORD
-              value: "srijanRootPass123"
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-root-password
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-password
             - name: MYSQL_DATABASE
               value: "srijan_assets"
           ports:
