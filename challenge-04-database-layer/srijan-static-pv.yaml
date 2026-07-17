@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: srijan-static-pv
+  labels:
+    type: srijan-manual-demo
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/srijan-data"
+  persistentVolumeReclaimPolicy: Retain

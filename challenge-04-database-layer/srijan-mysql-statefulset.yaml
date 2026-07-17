@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: srijan-mysql
+  namespace: srijan-dev
+  labels:
+    app: srijan-mysql
+    tier: database
+spec:
+  serviceName: srijan-mysql-svc
+  replicas: 1
+  selector:
+    matchLabels:
+      app: srijan-mysql
+  template:
+    metadata:
+      labels:
+        app: srijan-mysql
+        tier: database
+    spec:
+      containers:
+        - name: srijan-mysql
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "srijanRootPass123"
+            - name: MYSQL_DATABASE
+              value: "srijan_assets"
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: 500m
+              memory: 768Mi
+          volumeMounts:
+            - name: srijan-mysql-data
+              mountPath: /var/lib/mysql
+            - name: srijan-mysql-init
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: srijan-mysql-init
+          configMap:
+            name: srijan-mysql-init-schema
+  volumeClaimTemplates:
+    - metadata:
+        name: srijan-mysql-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
