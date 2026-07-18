@@ -38,6 +38,13 @@ spec:
                 secretKeyRef:
                   name: srijan-db-secret
                   key: mysql-user
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: 400m
+              memory: 512Mi
           volumeMounts:
             - name: srijan-app-config-vol
               mountPath: /etc/srijan-config

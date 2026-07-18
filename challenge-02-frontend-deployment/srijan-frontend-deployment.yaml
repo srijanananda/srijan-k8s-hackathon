@@ -9,7 +9,7 @@ metadata:
     environment: dev
     version: v1.0
 spec:
-  replicas: 3
+  replicas: 5
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -28,6 +28,13 @@ spec:
     spec:
       containers:
         - name: srijan-frontend
-          image: nginx:1.21
+          image: nginx:1.22
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi

@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: srijan-quota-test
+  namespace: srijan-prod
+spec:
+  containers:
+    - name: srijan-quota-test
+      image: nginx:1.22
+      resources:
+        requests:
+          cpu: "5"
+          memory: 10Gi
+        limits:
+          cpu: "5"
+          memory: 10Gi
