@@ -53,6 +53,27 @@ spec:
               mountPath: /var/lib/mysql
             - name: srijan-mysql-init
               mountPath: /docker-entrypoint-initdb.d
+          livenessProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - "-u"
+                - root
+                - "-psrijanRootPass123"
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            failureThreshold: 3
+          startupProbe:
+            exec:
+              command:
+                - mysqladmin
+                - ping
+                - "-u"
+                - root
+                - "-psrijanRootPass123"
+            failureThreshold: 30
+            periodSeconds: 10
       volumes:
         - name: srijan-mysql-init
           configMap:
@@ -61,8 +82,9 @@ spec:
     - metadata:
         name: srijan-mysql-data
       spec:
-        accessModes: ["ReadWriteOnce"]
+        accessModes:
+          - ReadWriteOnce
+        storageClassName: gp2
         resources:
           requests:
             storage: 5Gi
-        
