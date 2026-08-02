@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: srijan-db-cleanup
+  namespace: srijan-dev
+spec:
+  schedule: "0 2 * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: srijan-db-cleanup
+              image: mysql:8.0
+              env:
+                - name: MYSQL_PWD
+                  valueFrom:
+                    secretKeyRef:
+                      name: srijan-db-secret
+                      key: mysql-root-password
+              command:
+                - sh
+                - -c
+                - "mysql -h srijan-mysql-0.srijan-mysql-svc.srijan-dev.svc.cluster.local -u root -e 'SELECT COUNT(*) FROM srijan_assets.asset_catalog;' && echo Cleanup check completed at $(date)"

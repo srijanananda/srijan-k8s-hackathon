@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: srijan-asset-sync
+  namespace: srijan-dev
+spec:
+  schedule: "*/5 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: srijan-asset-sync
+              image: busybox
+              command:
+                - sh
+                - -c
+                - "echo Syncing srijan asset catalog at $(date)"

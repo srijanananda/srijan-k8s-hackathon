@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: srijan-analytics-report
+  namespace: srijan-dev
+spec:
+  schedule: "*/10 * * * *"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 2
+  jobTemplate:
+    spec:
+      backoffLimit: 2
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: srijan-analytics-report
+              image: curlimages/curl
+              command:
+                - sh
+                - -c
+                - "curl -s srijan-analytics-svc.srijan-dev.svc.cluster.local:8080 && echo Report generated at $(date)"
