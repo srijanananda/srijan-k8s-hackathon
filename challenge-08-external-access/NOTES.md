@@ -130,6 +130,3 @@ confirming ssl-redirect annotation works correctly.
   onward. In a real production deployment, this would use type: LoadBalancer
   or the AWS Load Balancer Controller with an ALB instead.
 
-## Naming convention
-CloudVault (original PDF) -> renamed to Srijan throughout ("srijan.local"
-instead of "cloudvault.local").

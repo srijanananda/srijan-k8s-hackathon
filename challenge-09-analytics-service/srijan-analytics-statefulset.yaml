@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: srijan-analytics
+  namespace: srijan-dev
+  labels:
+    app: srijan-analytics
+    tier: analytics
+spec:
+  serviceName: srijan-analytics-svc
+  replicas: 3
+  selector:
+    matchLabels:
+      app: srijan-analytics
+  template:
+    metadata:
+      labels:
+        app: srijan-analytics
+        tier: analytics
+    spec:
+      containers:
+        - name: srijan-analytics
+          image: hashicorp/http-echo
+          args:
+            - "-text=srijan-analytics-node-processing"
+            - "-listen=:8080"
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: srijan-db-secret
+                  key: mysql-password
+            - name: DATABASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: srijan-app-config
+                  key: database-url
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: srijan-analytics-data
+              mountPath: /data
+  volumeClaimTemplates:
+    - metadata:
+        name: srijan-analytics-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: gp2
+        resources:
+          requests:
+            storage: 2Gi
