@@ -1,0 +1,41 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: srijan-developer-binding
+  namespace: srijan-dev
+subjects:
+  - kind: ServiceAccount
+    name: srijan-developer
+    namespace: srijan-dev
+roleRef:
+  kind: Role
+  name: srijan-developer-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: srijan-operator-binding
+  namespace: srijan-dev
+subjects:
+  - kind: ServiceAccount
+    name: srijan-operator
+    namespace: srijan-dev
+roleRef:
+  kind: Role
+  name: srijan-operator-role
+  apiGroup: rbac.authorization.k8s.io
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: srijan-admin-binding
+  namespace: srijan-prod
+subjects:
+  - kind: ServiceAccount
+    name: srijan-admin
+    namespace: srijan-prod
+roleRef:
+  kind: Role
+  name: srijan-admin-role
+  apiGroup: rbac.authorization.k8s.io

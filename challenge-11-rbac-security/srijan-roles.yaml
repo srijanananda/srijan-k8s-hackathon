@@ -1,0 +1,29 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: srijan-developer-role
+  namespace: srijan-dev
+rules:
+  - apiGroups: ["", "apps"]
+    resources: ["pods", "deployments"]
+    verbs: ["get", "list", "watch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: srijan-operator-role
+  namespace: srijan-dev
+rules:
+  - apiGroups: ["", "apps", "batch"]
+    resources: ["pods", "deployments", "services", "cronjobs", "jobs"]
+    verbs: ["get", "list", "watch", "create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: srijan-admin-role
+  namespace: srijan-prod
+rules:
+  - apiGroups: ["*"]
+    resources: ["*"]
+    verbs: ["*"]
