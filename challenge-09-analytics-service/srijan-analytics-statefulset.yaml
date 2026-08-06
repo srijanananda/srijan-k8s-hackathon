@@ -18,6 +18,20 @@ spec:
         app: srijan-analytics
         tier: analytics
     spec:
+      tolerations:
+        - key: workload
+          operator: Equal
+          value: analytics
+          effect: NoSchedule
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: tier
+                    operator: In
+                    values:
+                      - analytics
       containers:
         - name: srijan-analytics
           image: hashicorp/http-echo

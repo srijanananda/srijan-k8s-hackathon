@@ -26,6 +26,18 @@ spec:
         environment: dev
         version: v1.0
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app
+                      operator: In
+                      values:
+                        - frontend
+                topologyKey: kubernetes.io/hostname
       containers:
         - name: srijan-frontend
           image: nginx:1.22
