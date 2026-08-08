@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: srijan-fluentd
+  namespace: srijan-dev
+  labels:
+    app: srijan-fluentd
+spec:
+  selector:
+    matchLabels:
+      app: srijan-fluentd
+  template:
+    metadata:
+      labels:
+        app: srijan-fluentd
+    spec:
+      tolerations:
+        - key: workload
+          operator: Equal
+          value: analytics
+          effect: NoSchedule
+      containers:
+        - name: srijan-fluentd
+          image: fluent/fluentd:v1.16-1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 200m
+              memory: 256Mi
+          volumeMounts:
+            - name: varlog
+              mountPath: /var/log
+      volumes:
+        - name: varlog
+          hostPath:
+            path: /var/log
