@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: srijan-allow-to-mysql
+  namespace: srijan-dev
+spec:
+  podSelector:
+    matchLabels:
+      app: srijan-mysql
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: backend-api
+        - podSelector:
+            matchLabels:
+              app: srijan-analytics
+      ports:
+        - protocol: TCP
+          port: 3306
